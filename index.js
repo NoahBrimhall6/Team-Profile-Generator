@@ -105,7 +105,7 @@ function next() {
       {
         type: 'list',
         message: 'What would you like to do next?',
-        choices: ['Create new engineer', 'Create new Intern', 'Finish building my team'],
+        choices: ['Create new engineer', 'Create new intern', 'Finish building my team'],
         name: 'next'
       }
     ])
@@ -115,7 +115,7 @@ function next() {
           createEngineer();
           break;
 
-        case 'Create new Intern':
+        case 'Create new intern':
           createIntern();
           break;
 
@@ -131,16 +131,68 @@ function next() {
 }
 
 function generateHTML() {
-  console.log(team);
-  // function generateEmployeeCard() {
+  function generateEmployeeCard(employee) {
 
-  // }
+    if (employee.getRole() === "Manager") {
+      var info = `Office Number: ${employee.officeNum}`;
+    } else if (employee.getRole() === "Engineer") {
+      var info = `Github: <a href="${employee.getGithub()}" class="card-link">${employee.github}</a>`;
+    } else {
+      var info = `School: employee.school`;
+    }
 
-  // const HTML = ``;
+    const card = `
+    <div class="col-12 col-sm-6 col-lg-4 col-xxl-3 mb-3">
+      <div class="card">
+        <div class="card-header text-bg-primary">
+          <h5 class="card-title">${employee.name}</h5>
+          ${employee.getRole()}    
+        </div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item">ID: ${employee.id}</li>
+            <li class="list-group-item">Email: <a href="mailto:${employee.email}" class="card-link">${employee.email}</a></li>
+            <li class="list-group-item">${info}</li>
+          </ul>
+        </div>
+      </div>
+    </div>`;
 
-  // fs.writeFile('dist/index.html', HTML, (err) => 
-  //   err ? console.error('Error: Failed to generate index.html', err) 
-  //   : console.log('index.html was successfully created!'));
+    return card;
+  }
+
+  var cards = "";
+
+  for (employee of team) {
+    cards = cards + generateEmployeeCard(employee);
+  }
+
+  const HTML = 
+  `<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>My Team</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+      <header class="text-bg-success p-3 mb-3">
+        <h1>My Team</h1>
+      </header>
+      <main class="container">
+        <div class="row">
+                ${cards}
+        </div>
+      </main>
+    </body>
+  </html>`;
+
+  fs.writeFile('dist/index.html', HTML, (err) => 
+    err ? console.error('Error: Failed to generate index.html', err) 
+    : console.log('index.html was successfully created!'));
 }
 
 
