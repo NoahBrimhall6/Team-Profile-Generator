@@ -2,11 +2,12 @@ const Manager = require('./lib/Manager.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
 const inquirer = require('inquirer');
+const fs = require('fs');
 
 const team = [];
 
 function init() {
-  inquirer()
+  inquirer
     .prompt([
       {
         type: 'input',
@@ -30,11 +31,10 @@ function init() {
       }
     ])
     .then((answers) => {
-      const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
+      let manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum);
       team.push(manager);
       next();
-    })
-    .catch(error(err));
+    });
 }
 
 function createEngineer() {
@@ -65,8 +65,7 @@ function createEngineer() {
       let engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
       team.push(engineer);
       next();
-    })
-    .catch(error(err));
+    });
 }
 
 function createIntern() {
@@ -97,8 +96,7 @@ function createIntern() {
       let intern = new Intern(answers.name, answers.id, answers.email, answers.school);
       team.push(intern);
       next();
-    })
-    .catch(error(err));
+    });
 }
 
 function next() {
@@ -129,20 +127,20 @@ function next() {
         default:
           console.error('Error: No choice was excepted.')
       }
-    })
-    .catch(error(err));
-}
-
-function error(error) {
-  if (error.isTtyError) {
-    console.error(`Prompt couldn't be rendered in the current environment`);
-  } else {
-    console.error('Oops, Something went wrong with Inquirer');
-  }
+    });
 }
 
 function generateHTML() {
-  
+  console.log(team);
+  // function generateEmployeeCard() {
+
+  // }
+
+  // const HTML = ``;
+
+  // fs.writeFile('dist/index.html', HTML, (err) => 
+  //   err ? console.error('Error: Failed to generate index.html', err) 
+  //   : console.log('index.html was successfully created!'));
 }
 
 
