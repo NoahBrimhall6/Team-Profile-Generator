@@ -6,6 +6,7 @@ const fs = require('fs');
 
 const team = [];
 
+//init runs when the program starts, inquirer prompts for manager.
 function init() {
   inquirer
     .prompt([
@@ -37,6 +38,7 @@ function init() {
     });
 }
 
+//inquirer prompts for engineer
 function createEngineer() {
   inquirer
     .prompt([
@@ -68,6 +70,7 @@ function createEngineer() {
     });
 }
 
+//inquirer prompts for intern
 function createIntern() {
   inquirer
     .prompt([
@@ -99,6 +102,7 @@ function createIntern() {
     });
 }
 
+//logic and inquirer for next choice
 function next() {
   inquirer
     .prompt([
@@ -130,7 +134,9 @@ function next() {
     });
 }
 
+//Creates HTML
 function generateHTML() {
+  //Creates HTML employee cards
   function generateEmployeeCard(employee) {
 
     if (employee.getRole() === "Manager") {
@@ -138,7 +144,7 @@ function generateHTML() {
     } else if (employee.getRole() === "Engineer") {
       var info = `Github: <a href="${employee.getGithub()}" class="card-link">${employee.github}</a>`;
     } else {
-      var info = `School: employee.school`;
+      var info = `School: ${employee.school}`;
     }
 
     const card = `
@@ -190,11 +196,10 @@ function generateHTML() {
     </body>
   </html>`;
 
+  //Creates new file
   fs.writeFile('dist/index.html', HTML, (err) => 
     err ? console.error('Error: Failed to generate index.html', err) 
     : console.log('index.html was successfully created!'));
 }
-
-
 
 init();
